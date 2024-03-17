@@ -1,35 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, FlatList } from "react-native";
 import styles from "./Categories.style";
-import axios from "axios";
 
-import ListItem from "../../component/ListItem/ListItem";
+import useFetch from '../../hooks/useFetch';
+import ListItemCategories from "../../component/ListItemCategories/ListItemCategories";
 import Loading from "../../component/Loading/Loading";
 import Error from "../../component/Error";
 
-const Categories = () => {
-  const URL = process.env.EXPO_PUBLIC_API_URL;
-  const [list, setList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+const Categories = ({navigation}) => {
+  const URL = process.env.EXPO_PUBLIC_API_URL + 'categories.php';
+  const {loading,data,error} = useFetch(URL);
 
-  useEffect(() => {
-    setLoading(true);
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
-    try {
-      const { data: category_obj } = await axios.get(URL);
-      setList(category_obj.categories);
-      setLoading(false);
-    } catch (error) {
-      setError(true);
-    }
+  const handleItemSelect = (category_name) => {
+    navigation.navigate('Category', {category_name});
   };
 
-  const renderList = ({ item }) => <ListItem item={item} />;
-
+  const renderList = ({ item }) => <ListItemCategories item={item} onSelect={() => handleItemSelect(item.strCategory)}/>;
   
   if (loading) {
     return <Loading />;
@@ -43,8 +29,9 @@ const Categories = () => {
     <View style={styles.container}>
       <FlatList
         keyExtractor={(item) => item.idCategory}
-        data={list}
+        data={data.categories}
         renderItem={renderList}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   );

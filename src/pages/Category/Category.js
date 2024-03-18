@@ -6,7 +6,7 @@ import ListItemCategory from "../../component/ListItemCategory/ListItemCategory"
 import Loading from "../../component/Loading/Loading";
 import Error from "../../component/Error";
 
-const Category = ({ route }) => {
+const Category = ({ route,navigation }) => {
   const { category_name } = route.params;
   const URL = process.env.EXPO_PUBLIC_API_URL + "filter.php?c=";
   const { loading, data, error } = useFetch(`${URL}${category_name}`);
@@ -16,7 +16,11 @@ const Category = ({ route }) => {
 
   // console.log(category_name);
 
-  const renderCategoryList = ({ item }) => <ListItemCategory meal={item} />;
+  const onPressMeal = (meal_id) => {
+    navigation.navigate('Recipe', {meal_id});
+  };
+
+  const renderCategoryList = ({ item }) => <ListItemCategory meal={item} onPress= {() => onPressMeal(item.idMeal)}/>;
 
   if (loading) {
     return <Loading />;

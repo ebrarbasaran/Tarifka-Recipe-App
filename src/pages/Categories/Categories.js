@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList } from "react-native";
+import { View, FlatList,Text } from "react-native";
 import styles from "./Categories.style";
 
 import useFetch from '../../hooks/useFetch';
@@ -27,6 +27,7 @@ const Categories = ({navigation}) => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.header_text}>I would like to cook</Text>
       <FlatList
         keyExtractor={(item) => item.idCategory}
         data={data.categories}

@@ -21,6 +21,17 @@ export default StyleSheet.create({
         marginTop: 5,
     },
     youtube_btn: {
+        backgroundColor: 'red',
+        height: 40,
+        borderRadius: 10,
+        margin: 10,
         
+    },
+    btn_text: {
+        color: '#fff',
+        textAlign: 'center',
+        padding: 10,
+        fontWeight: 'bold',
+        fontSize: 16,
     },
 })
